@@ -10,6 +10,7 @@ export default function Community(){
   const [text, setText] = useState('')
   const [photo, setPhoto] = useState('')
   const [posts, setPosts] = useState([])
+  const [fileName, setFileName] = useState('')
   const fileRef = useRef()
   const user = getUser()
 
@@ -23,6 +24,7 @@ export default function Community(){
     const reader = new FileReader()
     reader.onload = ()=> setPhoto(reader.result)
     reader.readAsDataURL(file)
+    setFileName(file.name)
   }
 
   // 게시글 등록 핸들러
@@ -46,7 +48,11 @@ export default function Community(){
           <form className="post-form" onSubmit={submit}>
             <textarea className="post-text" value={text} onChange={e=>setText(e.target.value)} placeholder="여행 후기를 적어주세요..." />
             <div className="uploader">
-              <input ref={fileRef} type="file" accept="image/*" onChange={e=>onUpload(e.target.files?.[0])} />
+              <div className="file-field">
+                <button type="button" className="btn file-btn" onClick={()=>fileRef.current?.click()}>파일 선택</button>
+                <span className="file-name">{fileName || '선택된 파일 없음'}</span>
+              </div>
+              <input id="postPhoto" ref={fileRef} type="file" accept="image/*" onChange={e=>onUpload(e.target.files?.[0])} className="hidden" />
               {photo && <img className="preview" src={photo} alt="preview" />}
             </div>
             <div className="form-actions">
@@ -58,13 +64,13 @@ export default function Community(){
 
       <div className="col span-2">
         {posts.map(p=> (
-          <Card key={p.id} title={p.author}
-                right={<button className="btn ghost" onClick={()=>del(p.id)}>삭제</button>}>
+      <Card key={p.id} title={p.author}
+        right={<button className="btn ghost white-text" onClick={()=>del(p.id)}>삭제</button>}>
             <div className="post">
               {p.photo && <img className="post-img" src={p.photo} alt="post" />}
               {p.text && <p className="post-txt">{p.text}</p>}
               <div className="post-ops">
-                <button className="btn ghost" onClick={()=>like(p.id)}>❤ {p.likes.length}</button>
+                <button className="btn ghost white-text" onClick={()=>like(p.id)}>❤ {p.likes.length}</button>
               </div>
               <div className="comments">
                 {p.comments.map(c=> (

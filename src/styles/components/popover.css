@@ -1,0 +1,13 @@
+/* 팝오버 & 알림 */
+/* 배경을 pure white 대신 반투명 글래스 톤으로 (주변 surface와 어울림) */
+.popover { @apply absolute right-0 top-[52px] w-[300px] rounded-[16px] p-4 z-50 border border-emerald-700/15 shadow-[0_8px_28px_rgba(16,185,129,0.18)];
+	background: linear-gradient(135deg, rgba(240,253,244,0.85) 0%, rgba(255,255,255,0.72) 100%);
+	backdrop-filter: blur(10px) saturate(140%);
+}
+/* 화살표도 동일 톤 적용 */
+.popover:before { content:""; position:absolute; top:-8px; right:18px; width:16px; height:16px; border:1px solid rgba(16,185,129,0.18); border-bottom:none; border-right:none; transform:rotate(45deg);
+	background: linear-gradient(135deg, rgba(240,253,244,0.85) 0%, rgba(255,255,255,0.72) 100%); backdrop-filter: blur(10px) saturate(140%);
+}
+.noti-head { @apply text-sm font-medium text-(--text-soft) mb-2 flex items-center gap-2; }
+.noti-item { @apply p-3 rounded-[12px] bg-(--surface) mb-2 last:mb-0 border border-emerald-700/10; }
+.noti-item.new { @apply bg-white border-emerald-500/30 shadow-[0_0_0_1px_rgba(16,185,129,0.2),0_2px_6px_rgba(0,0,0,0.04)]; }

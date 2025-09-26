@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getWeather } from '../services/weatherService'
 
-const gradients = {
-  clear: ['#6EA1FF','#3E67F0'],
-  night: ['#233A7A','#0D1B3D'],
-  sand: ['#FFA46E','#FF6D6D']
-}
-
 // 현재 날씨를 조회/표시, API 키 없으면 '목업' 데이터로 대체
 export default function WeatherWidget({city='Seoul'}){
   const [data,setData] = useState(null)
@@ -29,9 +23,13 @@ export default function WeatherWidget({city='Seoul'}){
     return <div className="weather loading">날씨 불러오는 중...</div>
   }
 
-  const [g1,g2] = gradients[theme]
+  const themeBg = {
+    clear: 'bg-[linear-gradient(160deg,_#6EA1FF,_#3E67F0)]',
+    night: 'bg-[linear-gradient(160deg,_#233A7A,_#0D1B3D)]',
+    sand: 'bg-[linear-gradient(160deg,_#FFA46E,_#FF6D6D)]',
+  }[theme] || 'bg-[linear-gradient(160deg,_#6EE7B7,_#34D399)]'
   return (
-    <div className="weather" style={{background: `linear-gradient(160deg, ${g1}, ${g2})`}}>
+    <div className={`weather ${themeBg}`}>
       <div className="w-top">
         <div>
           <h3>{data.city}</h3>

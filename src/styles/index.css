@@ -1,9 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap');
+/* Tailwind (Preflight 포함) */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
 
+/* Tailwind v4 테마 변수: 기존 :root 변수에 매핑 → JSX/스타일 변경 없음 */
+@theme {
+	/* Colors */
+	--color-primary: var(--primary);
+	--color-primary-2: var(--primary-2);
+	--color-accent: var(--accent);
+	--color-text: var(--text);
+	--color-muted: var(--muted);
+	--color-bg: var(--bg);
+	--color-bg-card: var(--bg-card);
+	--color-panel: var(--panel);
+	--color-navy: var(--navy);
+	--color-orange: var(--orange);
+	--color-lime: var(--lime);
+	--color-danger: var(--danger);
+	--color-bg-widget: var(--bg-widget);
+	--color-surface: var(--surface);
+	--color-surface-2: var(--surface-2);
+}
+
+
+/* Preflight ON 상태 스팟 보정: 버튼 커서/리스트 불릿 복원 */
+	@layer base {
+		button:not(:disabled), [role="button"]:not(:disabled) { cursor: pointer; }
+		ul { list-style-type: disc; list-style-position: outside; padding-left: 1.25rem; }
+		ol { list-style-type: decimal; list-style-position: outside; padding-left: 1.25rem; }
+		input::placeholder, textarea::placeholder { color: var(--muted); opacity: 1; }
+		/* 폰트 스무딩: 가독성 개선(특히 한글) */
+		body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-synthesis: none; }
+	}
 /* Reset + typography */
 *{box-sizing:border-box}
 html,body,#root{height:100%}
-body{margin:0; font-family:Pretendard,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+body{margin:0; font-family:Pretendard, "Noto Sans KR", "Segoe UI", Roboto, Arial, sans-serif}
 h1,h2,h3{margin:0}
 
 /* Tokens */
@@ -38,201 +72,18 @@ body{
 	background-attachment: fixed;
 }
 
-/* Shell */
-.app-shell{display:grid; grid-template-columns: 280px 1fr; height:100vh; overflow:hidden}
-.sidebar{padding:24px 20px; background: linear-gradient(180deg, #E6F7ED 0%, #C8F7DC 100%); backdrop-filter: blur(8px); border-right: 1px solid rgba(4,120,87,0.12); position: relative; overflow: hidden}
-.sidebar::before{content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.15) 100%); pointer-events: none}
-.sidebar .brand{font-weight:700; font-size:24px; letter-spacing:-0.5px; margin-bottom:32px; color: var(--text)}
-.sidebar nav{display:flex; flex-direction:column; gap:8px}
-.sidebar a{color:var(--text); text-decoration:none; padding:12px 16px; border-radius:12px; transition: all 0.2s ease; position: relative; overflow: hidden}
-.sidebar .nav-item{display:flex; gap:12px; align-items:center; font-weight: 500}
-.sidebar .nav-item .ico{width:20px; text-align:center; font-size: 18px}
-.sidebar a:hover{background:rgba(16,185,129,0.12); transform: translateX(4px)}
-.sidebar a.active{background: var(--gradient-primary); color:#ffffff; font-weight:600; box-shadow: 0 8px 25px rgba(16, 185, 129, 0.25)}
-.sidebar a.active::before{content:""; position:absolute; left:-20px; top:50%; width:4px; height:24px; border-radius:2px; background: linear-gradient(180deg, #06b6d4, #0891b2); transform:translateY(-50%)}
-
-.main{display:flex; flex-direction:column; height: 100vh; overflow: hidden}
-.topbar{display:flex; gap:16px; align-items:center; padding:20px 24px; background: rgba(13, 148, 136, 0.08); backdrop-filter: blur(6px); border-bottom: 1px solid rgba(4, 120, 87, 0.15); position: sticky; top: 0; z-index: 10; position: sticky}
-.searchbar{display:flex; align-items:center; gap:12px; flex:1; max-width:none; min-width:420px}
-.topbar .actions{margin-left:auto}
-.search-input{flex:1; height:52px; padding:0 22px; border:none; border-radius:26px; background: #ffffff; color:var(--text); border: 1px solid rgba(4, 120, 87, 0.2); font-size: 15px; transition: all 0.2s ease}
-.search-input:focus{outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15); background: #ffffff}
-.search-input::placeholder{color:#047857}
-.search-btn{height:52px; padding:0 26px; border:none; border-radius:26px; background: var(--gradient-primary); color:#ffffff; font-weight:600; cursor:pointer; font-size: 15px; transition: all 0.2s ease; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3)}
-.search-btn:hover{transform: translateY(-1px); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4)}
-.actions{display:flex; gap:12px; align-items:center}
-.icon-btn{background: var(--surface); border:none; border-radius:12px; width:48px; height:48px; display:grid; place-items:center; cursor:pointer; color:var(--text); transition: all 0.2s ease; border: 1px solid rgba(4, 120, 87, 0.15)}
-.icon-btn:hover{background: #F0FDF4; transform: translateY(-1px)}
-.avatar{width:40px; height:40px; border-radius:50%; background: var(--gradient-primary); display:grid; place-items:center; font-weight:600; color:#ffffff; cursor: pointer; transition: all 0.2s ease; border: 2px solid rgba(16, 185, 129, 0.2)}
-.avatar:hover{transform: scale(1.05)}
-.avatar.big{width:64px; height:64px; font-size:24px; border:3px solid rgba(16,185,129,0.2)}
-.user-box{display:flex; gap:12px; align-items:center}
-.user-meta{display:flex; flex-direction:column; line-height:1.2}
-.user-name{font-weight:600; color: var(--text)}
-
-.btn{background: var(--gradient-primary); color:#ffffff; border:none; padding:10px 16px; border-radius:8px; cursor:pointer; font-weight: 500; transition: all 0.2s ease; font-size: 14px}
-.btn:hover{transform: translateY(-1px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3)}
-.btn.ghost{background:#ffffff; color:var(--text); border: 1px solid rgba(4, 120, 87, 0.2)}
-.btn.ghost:hover{background: #F0FDF4}
-.btn.danger{background: linear-gradient(135deg, #ef4444, #dc2626)}
-.btn.sm{padding:6px 12px; font-size:12px}
-
-/* Content */
-.content{padding:0; overflow:auto; flex: 1; height: calc(100vh - 88px)}
-.content.board{background: var(--surface); border-radius:20px 20px 0 0; margin:0 24px; padding: 20px 24px 24px; backdrop-filter: blur(6px); border: 1px solid rgba(4, 120, 87, 0.12); border-bottom: none; position: relative}
-.content.board::before{content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01)); border-radius: 20px 20px 0 0; pointer-events: none}
-.grid{display:grid; grid-template-columns: 1fr 420px; gap:24px; position: relative; z-index: 1; margin-top:24px}
-.grid .col{display:flex; flex-direction:column; gap:24px}
-.grid .col:last-child{gap:16px}
-.grid .span-2{grid-column: span 2}
-
-/* Cards */
-.card{background: var(--surface); border:1px solid rgba(4,120,87,0.15); border-radius:var(--radius-lg); box-shadow: 0 10px 25px rgba(16,185,129,0.08); overflow:hidden; backdrop-filter: blur(8px); position: relative}
-.card::before{content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)}
-.card.weather-card{backdrop-filter:blur(20px)}
-/* On pages without a grid (e.g., Trips), drop the first section a bit */
-.content.board > .card:first-of-type{ margin-top: 24px }
-
-/* Calendar Card - 크기 조정 */
-.calendar-card{background: var(--bg-widget); border:1px solid rgba(4,120,87,0.2); border-radius:16px; box-shadow: 0 14px 28px rgba(16,185,129,0.08); width:100%; backdrop-filter: blur(8px)}
-.calendar-card .card-head{padding:16px 20px 8px}
-.calendar-card .card-head h3{font-size:16px; font-weight:700; letter-spacing:0.2px; color: var(--text)}
-.calendar-card .card-head .sub{display:none}
-.calendar-card .card-body{padding:14px 20px 18px; overflow:visible}
-
-/* Calendar Grid - 작게 만들기 */
-.cal{display:flex; flex-direction:column; gap:6px}
-.cal-bar{display:flex; align-items:center; gap:8px; margin-bottom: 4px}
-.cal-title{font-weight:700; color: var(--text); font-size: 14px}
-.cal-head{display:grid; grid-template-columns:repeat(7,1fr); gap:2px; color:#047857; font-size:11px; margin-bottom: 4px; font-weight: 600; text-align: center}
-.cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:2px}
-.cal .cell{position:relative; border:none; border-radius:6px; padding:6px 4px; background: var(--surface); color:var(--text); cursor:pointer; border:1px solid rgba(4,120,87,0.18); transition: all 0.2s ease; font-size: 11px; font-weight: 600; text-align: center; min-height: 28px; display: flex; align-items: center; justify-content: center}
-.cal .cell:hover{background: #ECFDF5; border-color: rgba(4,120,87,0.35); transform: scale(1.05)}
-.cal .cell.cur{background: #F0FDF4}
-.cal .cell.today{outline:1px solid var(--primary); background: rgba(16, 185, 129, 0.15)}
-.cal .cell.sel{box-shadow:inset 0 0 0 1px var(--primary); background: var(--gradient-primary); color: #ffffff}
-.cal .cell.in{background: #F8FAF8; color: #047857}
-.cal .cell .dot{position:absolute; bottom:2px; left:50%; transform:translateX(-50%); width:2px; height:2px; background: var(--primary-2); border-radius:50%}
-
-/* Memo list - 작게 */
-.memo-list{display:flex; flex-direction:column; gap:3px; margin-top: 6px}
-.memo-item{display:flex; justify-content:space-between; align-items:center; padding:4px 6px; border:1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.08); border-radius:3px; transition: all 0.2s ease}
-.memo-item:hover{background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.2)}
-.memo-item .text{flex:1; color: var(--text); font-size: 10px}
-.ops{display:flex; gap:4px}
-
-.card-head{display:flex; justify-content:space-between; align-items:flex-end; padding:20px 20px 0}
-.card-head h3{margin:0; color:var(--text); font-weight: 600}
-.card-head .sub{margin:0.25rem 0 0; color:var(--muted); font-size:13px}
-.card-body{padding:20px; color:var(--text)}
-.card-head .actions{display:flex; gap:8px; align-items:center}
-
-/* Weather - 크기 맞춤 */
-.weather{border-radius:16px; color:#064E3B; padding:22px; min-height:260px; display:flex; flex-direction:column; gap:14px; background: var(--gradient-accent); position: relative; overflow: hidden}
-.weather::before{content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent); pointer-events: none}
-.weather.loading{background: var(--bg-widget); color:#047857; min-height:120px; backdrop-filter: blur(6px)}
-.w-top{position: relative; z-index: 1}
-.w-top h3{margin:0 0 8px 0; font-weight: 700; font-size: 16px}
-.w-main{font-size:40px; font-weight:800; position: relative; z-index: 1}
-.w-desc{margin:4px 0 0; opacity:0.95; font-size: 13px; position: relative; z-index: 1}
-.w-rows{display:flex; gap:10px; position: relative; z-index: 1}
-.w-chip{background: rgba(255,255,255,0.22); padding:6px 10px; border-radius:12px; font-size:11px; font-weight: 600; backdrop-filter: blur(10px)}
-.w-hourly{display:grid; grid-template-columns: repeat(6,1fr); gap:6px; position: relative; z-index: 1}
-.w-hour{background: rgba(236,253,245,0.9); padding:8px 6px; text-align:center; border-radius:8px; backdrop-filter: blur(6px)}
-.w-hour .t{font-size:10px; opacity:0.9}
-.w-hour .v{font-weight:700; margin-top: 2px; font-size: 12px}
-
-/* Cards grid: fill available width (3→2→1열) */
-.cards-row{display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:24px; align-items:stretch}
-.place-card{width:auto}
-@media (max-width: 1200px){.cards-row{grid-template-columns: repeat(2, minmax(0, 1fr))}}
-@media (max-width: 960px){.cards-row{grid-template-columns: 1fr}}
-.place-card{background: var(--surface); border-radius:16px; box-shadow: 0 20px 40px rgba(0,0,0,0.06); overflow:hidden; border:1px solid rgba(4,120,87,0.12); transition: all 0.3s ease; position: relative}
-.place-card:hover{transform: translateY(-8px); box-shadow: 0 30px 60px rgba(0,0,0,0.15)}
-.place-card .img{position:relative; height:180px; background: var(--gradient-primary); background-size: cover; background-position: center}
-.place-card .img, .place-card .img *{border-top-left-radius:16px; border-top-right-radius:16px}
-.place-card .rating-badge{position:absolute; top:12px; right:12px; background: rgba(0,0,0,0.7); color:#ffffff; padding:6px 10px; border-radius:20px; font-size:12px; font-weight: 600; backdrop-filter: blur(10px)}
-.place-card .txt{padding:16px}
-.place-card .price-bar{width:100%}
-.place-card .name{font-weight:700; font-size:18px; color:var(--text); margin-bottom: 8px}
-.place-card .price-bar{min-height:42px; margin-top:12px; background: var(--gradient-primary); color:#ffffff; border-radius:10px; padding:10px 12px; display:flex; justify-content:space-between; align-items:center; font-size: 14px}
-.place-card .price-tag{background:#c1ff2f; color:#111; padding:6px 10px; border-radius:10px; font-weight:800; font-size:12px; box-shadow:0 6px 18px rgba(193,255,47,0.3)}
-.destinations-card .card-body{padding:16px 20px 20px}
-.place-card .price-bar .price{font-weight:700; color: #ffffff}
-
-/* Popover */
-.popover{background: var(--surface); border-radius:12px; box-shadow: 0 25px 50px rgba(0,0,0,0.08); padding:16px; min-width:280px; z-index:999; backdrop-filter: blur(6px); border:1px solid rgba(4,120,87,0.15)}
-.noti-head{font-weight:600; margin-bottom:12px; color:var(--text); font-size: 14px}
-.noti-item{font-size:13px; color:var(--text); padding:8px 0; border-bottom:1px solid rgba(4,120,87,0.12); opacity: 0.9}
-.noti-item:last-child{border-bottom:none}
-
-/* Destinations */
-.destinations-card.card{background:transparent; border:none; box-shadow:none}
-.destinations-card .card-body{padding:0}
-.destinations-card .card-head{padding:0 0 6px 0}
-
-
-
-/* Mobile row spacing tweak */
-@media (max-width: 960px){.cards-row{gap:16px}}
-
-/* Utilities */
-.col{display:flex; flex-direction:column}
-.muted{color:var(--muted)}
-
-/* Basic styles for other components */
-
-.badge{display:inline-flex; padding:4px 8px; border-radius:12px; background: rgba(16,185,129,0.15); color:var(--text); font-size:11px; font-weight: 600}
-.badge.purple{background: rgba(52, 211, 153, 0.15); color:var(--text)}
-
-/* Auth */
-.auth{min-height:100%; display:grid; place-items:center}
-.auth-card{width:380px}
-.auth-card .card-body{display:flex; flex-direction:column; gap:12px}
-.auth-card input{width:100%; background:var(--surface); color:var(--text); border:1px solid rgba(4,120,87,.2); border-radius:10px; padding:10px 12px}
-
-/* Community */
-.post-form{display:flex; flex-direction:column; gap:12px}
-.post-text{min-height:90px; resize:vertical; padding:10px 12px; background:var(--surface); color:var(--text); border:1px solid rgba(4,120,87,.2); border-radius:12px}
-.uploader input[type="file"]{display:block}
-.uploader .preview{margin-top:8px; max-height:220px; border-radius:12px; box-shadow:var(--shadow)}
-.post-img{width:100%; max-height:360px; object-fit:cover; border-radius:12px}
-.post-txt{margin:10px 0}
-.post-ops{display:flex; gap:8px}
-.comments{display:flex; flex-direction:column; gap:8px; margin-top:10px}
-.comment{background:var(--surface); border:1px solid rgba(4,120,87,.16); padding:8px 10px; border-radius:10px}
-.comment-input{display:flex; gap:8px}
-.comment-input input{flex:1; padding:8px 10px; background:var(--surface); color:var(--text); border:1px solid rgba(4,120,87,.16); border-radius:10px}
-
-/* Profile */
-.profile-form{display:flex; flex-direction:column; gap:18px; align-items:stretch; background:var(--surface); border-radius:18px; padding:32px 24px; box-shadow:var(--shadow); border:1px solid rgba(4,120,87,.16)}
-.profile-row{display:flex; gap:24px; align-items:center}
-.profile-fields{display:flex; flex-direction:column; gap:12px; flex:1}
-.profile-fields label{font-size:15px; color:var(--text); margin-bottom:2px}
-.profile-fields input[type="text"], .profile-fields input[type="file"]{padding:10px 12px; border:1px solid rgba(4,120,87,.16); border-radius:10px; background:#ffffff; color:var(--text)}
-.profile-fields input[type="file"]{padding:6px 0}
-.profile-save{width:100%; margin-top:8px; font-size:16px; font-weight:600; border-radius:12px}
-
-/* Trips & lists */
-.trip-list{display:flex; flex-direction:column; gap:10px}
-.trip-item{display:flex; justify-content:space-between; align-items:center; padding:12px; background:var(--surface); border:1px solid rgba(4,120,87,.16); border-radius:12px}
-.trip-item .name{font-weight:600}
-.trip-item .meta{color:var(--muted); font-size:12px}
-
-
-/* Optional: tighter gap when shrunk */
-/* shrink-70 modifier removed */
-
-/* Responsive */
-
-@media (max-width: 960px){
-	.app-shell{grid-template-columns: 1fr}
-	.sidebar{display:none}
-	.grid{grid-template-columns: 1fr; gap: 16px}
-	.cards-row{gap: 16px}
-	.content.board{margin: 0 16px; padding: 16px}
-	.topbar{padding: 16px 20px}
-	.calendar-card{width: 100%; height: auto}
-}
+/* 컴포넌트 스타일 분리 import (layer=components) */
+@import "./components/buttons.css" layer(components);
+@import "./components/layout.css" layer(components);
+@import "./components/forms.css" layer(components);
+@import "./components/calendar.css" layer(components);
+@import "./components/widgets.css" layer(components);
+@import "./components/popover.css" layer(components);
+@import "./components/profile-trips.css" layer(components);
+@import "./components/memo-card.css" layer(components);
+@import "./components/community.css" layer(components);
+@import "./components/pseudo.css" layer(components);
+@import "./components/responsive.css" layer(components);
+@import "./components/auth.css" layer(components);
 
 

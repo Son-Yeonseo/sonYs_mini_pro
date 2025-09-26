@@ -73,33 +73,15 @@ export default function Home(){
     <div className="grid">
       <div className="col">
         <Card title="인기 여행지" subtitle="추천 여행지" className="destinations-card">
-          <div style={{marginTop: 8}}>
+          <div className="mt-2">
             <div className="cards-row">
               { [
-                { 
-                  name: '발리', 
-                  days: 'Starting at', 
-                  price: '', 
-                  rating: '4.7',
-                  gradient: 'linear-gradient(135deg, #ff6b6b, #ffa726)'
-                },
-                { 
-                  name: '두바이',
-                  days: 'Starting at',
-                  price: '',
-                  rating: '4.6',
-                  gradient: 'linear-gradient(135deg, #4fc3f7, #29b6f6)'
-                },
-                { 
-                  name: '몰디브', 
-                  days: 'Starting at', 
-                  price: '', 
-                  rating: '4.8',
-                  gradient: 'linear-gradient(135deg, #26c6da, #00acc1)'
-                },
+                { name: '발리', days: 'Starting at', price: '', rating: '4.7', bg: 'bg-[linear-gradient(135deg,_#ff6b6b,_#ffa726)]' },
+                { name: '두바이', days: 'Starting at', price: '', rating: '4.6', bg: 'bg-[linear-gradient(135deg,_#4fc3f7,_#29b6f6)]' },
+                { name: '몰디브', days: 'Starting at', price: '', rating: '4.8', bg: 'bg-[linear-gradient(135deg,_#26c6da,_#00acc1)]' },
               ].map((place, i) => (
                 <div key={i} className="place-card">
-                  <div className="img" style={{background: place.gradient}}>
+                  <div className={`img ${place.bg}`}>
                     <div className="badge purple rating-badge">{place.rating}★</div>
                   </div>
                   <div className="txt">
@@ -120,13 +102,12 @@ export default function Home(){
               right={<div className="cal-actions" />}
         >
           <CalMini value={month} selected={sel} range={range} onPick={onPick} onChangeMonth={onChangeMonth} events={events} />
-          <div className="meta" style={{marginTop:12,color:'#8a94c7',fontSize:'12px'}}>
+          <div className="meta mt-3 text-[#8a94c7] text-[12px]">
             기간 선택: {range.start?range.start.format('MM.DD'):''} {range.end?`~ ${range.end.format('MM.DD')}`:''}</div>
-          <div className="meta" style={{marginTop:8,color:'#8a94c7',fontSize:'12px'}}>
+          <div className="meta mt-2 text-[#8a94c7] text-[12px]">
             해당일 메모
             <button 
-              className="btn sm" 
-              style={{marginLeft:8, padding:'4px 8px', fontSize:'11px'}}
+              className="btn sm ml-2 px-2 py-1 text-[11px]" 
               onClick={addMemo}
             >
               + 추가
@@ -135,8 +116,7 @@ export default function Home(){
           <MemoList dateKey={sel.format('YYYY-MM-DD')} onEdit={editMemo} onDelete={delMemo} />
           {(range.start && range.end) && (
             <button 
-              className="btn sm" 
-              style={{marginTop:12, background:'var(--gradient-primary)'}}
+              className="btn sm mt-3 bg-[var(--gradient-primary)]" 
               onClick={createTripFromRange}
             >
               여행 일정 만들기
@@ -155,12 +135,7 @@ export default function Home(){
 function MemoList({dateKey, onEdit, onDelete}){
   const items = listEvents(dateKey)
   if(items.length===0) return (
-    <div className="empty" style={{
-      color:'#8a94c7', 
-      fontSize:'12px', 
-      padding:'12px 0',
-      textAlign:'center'
-    }}>
+    <div className="empty text-[#8a94c7] text-[12px] py-3 text-center">
       메모가 없습니다.
     </div>
   )

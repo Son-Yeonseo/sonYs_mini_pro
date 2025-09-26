@@ -49,7 +49,7 @@ export default function Layout(){
                   <div className="user-meta">
                     <div className="user-name">{user.name || 'Anni'}</div>
                   </div>
-                  <button className="btn ghost" onClick={()=>{ logout(); nav('/login') }}>로그아웃</button>
+                  <button className="btn inverse" onClick={()=>{ logout(); nav('/login') }}>로그아웃</button>
                 </div>
               ) : (
                 <button className="btn" onClick={()=>nav('/login')}>로그인</button>

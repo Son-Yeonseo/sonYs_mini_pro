@@ -1,0 +1,10 @@
+/* Pseudo 요소 / before & after 장식 */
+.sidebar:before { content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(255,255,255,0.7) 0%,rgba(255,255,255,0.5) 100%); pointer-events:none; border-radius:inherit; }
+.sidebar .active:before { content:""; position:absolute; left:0; top:50%; transform:translateY(-50%); width:4px; height:28px; background:linear-gradient(180deg,#34D399,#10B981); border-radius:0 3px 3px 0; }
+.content.board:before { content:""; position:absolute; inset:0; border:1px solid rgba(16,185,129,0.08); border-radius:inherit; pointer-events:none; }
+.card:before { content:""; position:absolute; inset:0; border:1px solid rgba(16,185,129,0.08); border-radius:inherit; pointer-events:none; }
+.weather-widget:before { content:""; position:absolute; inset:0; border:1px solid rgba(16,185,129,0.08); border-radius:inherit; pointer-events:none; }
+.place-card:before { content:""; position:absolute; inset:0; border:1px solid rgba(16,185,129,0.08); border-radius:inherit; pointer-events:none; }
+.place-card .media { position:relative; }
+.place-card .media:before { content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0.4) 100%); border-radius:inherit; }
+.calendar-card .day.has-memo:after { content:""; position:absolute; bottom:4px; left:50%; width:5px; height:5px; transform:translateX(-50%); background:linear-gradient(135deg,#34D399,#10B981); border-radius:50%; }

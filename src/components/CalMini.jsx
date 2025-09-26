@@ -21,7 +21,7 @@ export default function CalMini({
         <button className="btn ghost sm" onClick={()=>onChangeMonth?.(value.subtract(1,'month'))}>‹</button>
         <div className="cal-title">{value.format('YYYY.MM')}</div>
         <button className="btn ghost sm" onClick={()=>onChangeMonth?.(value.add(1,'month'))}>›</button>
-        <button className="btn ghost sm" onClick={()=>onChangeMonth?.(dayjs())} style={{marginLeft:'auto'}}>오늘</button>
+  <button className="btn ghost sm ml-auto" onClick={()=>onChangeMonth?.(dayjs())}>오늘</button>
       </div>
       <div className="cal-head">
         {['일','월','화','수','목','금','토'].map(d=> <span key={d}>{d}</span>)}

@@ -1,0 +1,33 @@
+/* 프로필 & 여행 목록 */
+.profile-form { @apply flex flex-col gap-4 max-w-[420px]; }
+.profile-row { @apply flex flex-col sm:flex-row items-start sm:items-center gap-8; }
+.profile-fields { @apply flex flex-col gap-5 w-full; }
+.profile-fields .field { @apply flex flex-col gap-1; }
+.profile-fields label { @apply flex flex-col items-start gap-2 text-xs font-semibold text-(--text-soft); }
+.profile-fields label input[type="text"],
+.profile-fields label input[type="file"] { @apply flex-1; }
+.profile-fields label { --label-w:72px; }
+.profile-fields label > span.label-text { width:auto; display:inline-block; }
+.profile-fields label > span.label-text, .profile-upload-row > .label-text { padding-left:0; }
+.profile-row > .avatar.big { @apply w-20 h-20 text-[26px] mr-8 shadow-[0_6px_16px_rgba(16,185,129,0.25)] border-2; font-weight:600; letter-spacing:0; }
+.profile-avatar { @apply aspect-square rounded-full flex items-center justify-center overflow-hidden p-0; }
+.profile-avatar.has-image { @apply relative bg-[linear-gradient(135deg,_#34D399_0%,_#10B981_100%)] p-[3px]; }
+.profile-avatar.has-image img { @apply w-full h-full object-cover rounded-full block; }
+.profile-avatar.has-image { color:transparent; }
+.profile-row > .avatar.big::first-letter { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+.profile-upload-row { @apply flex flex-col items-start gap-2 text-xs font-semibold text-(--text-soft) mt-1; }
+.profile-upload-row > .label-text { width:auto; display:inline-block; }
+.profile-avatar-upload { @apply flex items-center gap-3 w-full; }
+.profile-avatar-upload .upload-btn { @apply px-4 py-2 rounded-[10px] bg-[linear-gradient(135deg,_#34D399_0%,_#10B981_100%)] text-white text-[12px] font-semibold shadow-[0_4px_14px_rgba(16,185,129,0.25)] hover:-translate-y-px transition; }
+.profile-avatar-upload .file-name { @apply flex-1 min-h-[40px] px-3 py-2 rounded-[10px] border border-emerald-700/20 bg-(--surface) text-(--text) text-[12px] flex items-center; }
+.profile-fields input { @apply px-3 py-2 rounded-[10px] bg-(--surface) border border-emerald-700/16 text-(--text) w-full; }
+.profile-save { @apply mt-4; }
+
+/* 아바타: 카드 바깥 그림자 안 잘리도록 카드 overflow 해제 */
+.card.profile-card { overflow:visible; }
+.profile-row > .avatar.big { @apply flex-shrink-0; }
+.trip-list { @apply flex flex-col gap-3; }
+.trip-item { @apply p-4 rounded-[16px] border border-emerald-700/15 flex flex-col gap-2 bg-[rgba(255,255,255,0.55)] backdrop-blur-[5px] shadow-[0_8px_22px_rgba(16,185,129,0.08)]; }
+.trip-item h4 { @apply text-base font-semibold text-(--text); }
+.trip-item .meta { @apply text-xs text-(--text-soft) flex gap-3; }
+.trip-item .ops { @apply flex gap-2 mt-1; }

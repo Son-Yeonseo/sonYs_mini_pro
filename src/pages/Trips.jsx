@@ -22,7 +22,7 @@ export default function Trips(){
               <div className="meta">{t.city} · {t.start} ~ {t.end}</div>
             </div>
             <div className="ops">
-              <Link className="btn ghost" to={`/trips/${t.id}`}>수정</Link>
+              <Link className="btn" to={`/trips/${t.id}`}>수정</Link>
               <button className="btn danger" onClick={()=>del(t.id)}>삭제</button>
             </div>
           </div>
