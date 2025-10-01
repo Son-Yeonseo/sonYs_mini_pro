@@ -64,10 +64,17 @@ export default function Popover({ open, onClose, anchorClass, children }) {
     zIndex: 1000,
     transform: entered ? 'translateY(0) scale(1)' : 'translateY(8px) scale(0.98)',
     opacity: entered ? 1 : 0,
-    transition: 'opacity 160ms ease, transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1)'
+    transition: 'opacity 160ms ease, transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1)',
+    background: 'linear-gradient(135deg, rgba(240,253,244,0.85) 0%, rgba(255,255,255,0.72) 100%)',
+    backdropFilter: 'blur(10px) saturate(140%)',
   }
   return createPortal(
-    <div className="popover" ref={ref} role="dialog" style={style}>
+    <div
+      className="w-[300px] rounded-2xl p-4 border border-primary-dark/15 shadow-lg"
+      ref={ref}
+      role="dialog"
+      style={style}
+    >
       {children}
     </div>,
     document.body

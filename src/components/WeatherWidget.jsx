@@ -20,34 +20,41 @@ export default function WeatherWidget({city='Seoul'}){
   },[city])
 
   if(!data){
-    return <div className="weather loading">날씨 불러오는 중...</div>
+    return <div className="rounded-[20px] text-primary-dark p-6 min-h-[120px] bg-bg-card backdrop-blur-sm">날씨 불러오는 중...</div>
   }
 
   const themeBg = {
-    clear: 'bg-[linear-gradient(160deg,_#6EA1FF,_#3E67F0)]',
-    night: 'bg-[linear-gradient(160deg,_#233A7A,_#0D1B3D)]',
-    sand: 'bg-[linear-gradient(160deg,_#FFA46E,_#FF6D6D)]',
-  }[theme] || 'bg-[linear-gradient(160deg,_#6EE7B7,_#34D399)]'
+    clear: 'bg-gradient-weather-clear',
+    night: 'bg-gradient-weather-night',
+    sand: 'bg-gradient-weather-sand',
+  }[theme] || 'bg-gradient-weather'
+
+  const overlayStyle = {
+    background: 'linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04))',
+    pointerEvents: 'none'
+  }
+
   return (
-    <div className={`weather ${themeBg}`}>
-      <div className="w-top">
+    <div className={`rounded-[20px] text-text p-[26px] min-h-[252px] flex flex-col gap-[18px] relative overflow-hidden ${themeBg}`}>
+      <div className="absolute inset-0" style={overlayStyle}></div>
+      <div className="relative z-[1]">
         <div>
-          <h3>{data.city}</h3>
-          <div className="w-main">{Math.round(data.temp)}°</div>
-          <p className="w-desc">{data.main} · {data.desc}</p>
+          <h3 className="m-0 mb-2.5 font-bold text-[17px] leading-tight">{data.city}</h3>
+          <div className="text-[44px] font-extrabold relative z-[1] leading-tight">{Math.round(data.temp)}°</div>
+          <p className="mt-0.5 relative z-[1] text-[13.5px] leading-normal">{data.main} · {data.desc}</p>
         </div>
       </div>
-      <div className="w-rows">
-        <div className="w-chip">💧 {data.humidity}%</div>
-        <div className="w-chip">🌬️ {data.wind} m/s</div>
-        <div className="w-chip">☁️ {data.clouds}%</div>
+      <div className="flex gap-3 relative z-[1] flex-wrap">
+        <div className="bg-white/25 px-2.5 py-[7px] rounded-[13px] text-[10.5px] font-semibold backdrop-blur-sm">💧 {data.humidity}%</div>
+        <div className="bg-white/25 px-2.5 py-[7px] rounded-[13px] text-[10.5px] font-semibold backdrop-blur-sm">🌬️ {data.wind} m/s</div>
+        <div className="bg-white/25 px-2.5 py-[7px] rounded-[13px] text-[10.5px] font-semibold backdrop-blur-sm">☁️ {data.clouds}%</div>
       </div>
-      <div className="w-hourly">
+      <div className="grid grid-cols-6 gap-2.5 relative z-[1]">
         {data.hourly.slice(0,6).map((h,i)=> (
-          <div key={i} className="w-hour">
-            <div className="t">{h.t}</div>
-            <div className="i">{h.i}</div>
-            <div className="v">{Math.round(h.temp)}°</div>
+          <div key={i} className="bg-primary-light/90 px-2.5 py-[9px] text-center rounded-xl backdrop-blur-sm">
+            <div className="text-[11px] opacity-90">{h.t}</div>
+            <div>{h.i}</div>
+            <div className="font-bold mt-0.5 text-[13px]">{Math.round(h.temp)}°</div>
           </div>
         ))}
       </div>
