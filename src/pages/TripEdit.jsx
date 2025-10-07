@@ -2,6 +2,10 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Card from '../components/Card'
 import { getTrip, saveTrip } from '../services/storageService'
+import FormField from '../components/ui/FormField'
+import Button from '../components/ui/Button'
+import Input from '../components/ui/Input'
+import Separator from '../components/ui/Separator'
 
 // TripEdit : 날짜와 체크리스트로 여행을 생성/수정하는 페이지
 export default function TripEdit(){
@@ -45,28 +49,44 @@ export default function TripEdit(){
 
   return (
     <Card title={isNew? '새 여행' : '여행 수정'}>
-      <form className="form" onSubmit={submit}>
-        <div className="grid-2">
-          <label>여행 이름<input value={trip.name} onChange={e=>setTrip({...trip, name:e.target.value})} required /></label>
-          <label>도시<input value={trip.city} onChange={e=>setTrip({...trip, city:e.target.value})} required /></label>
-          <label>출발일<input type="date" value={trip.start} onChange={e=>setTrip({...trip, start:e.target.value})} required /></label>
-          <label>도착일<input type="date" value={trip.end} onChange={e=>setTrip({...trip, end:e.target.value})} required /></label>
+      <form className="flex flex-col gap-6" onSubmit={submit}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <FormField label="여행 이름" value={trip.name} onChange={e=>setTrip({...trip, name:e.target.value})} required />
+          <FormField label="도시" value={trip.city} onChange={e=>setTrip({...trip, city:e.target.value})} required />
+          <FormField label="출발일" type="date" value={trip.start} onChange={e=>setTrip({...trip, start:e.target.value})} required />
+          <FormField label="도착일" type="date" value={trip.end} onChange={e=>setTrip({...trip, end:e.target.value})} required />
         </div>
-        <div className="sep"/>
-        <h4>준비물 체크리스트</h4>
-        <div className="todo">
+        <Separator />
+        <h4 className="text-lg font-semibold text-text">준비물 체크리스트</h4>
+        <div className="flex flex-col gap-3">
           {trip.todo.map(item=> (
-            <div key={item.id} className="todo-row">
-              <input type="checkbox" checked={item.done} onChange={e=>setTodo(item.id,{done:e.target.checked})} />
-              <input className="todo-input" placeholder="예: 여권" value={item.text} onChange={e=>setTodo(item.id,{text:e.target.value})} />
-              <button type="button" className="icon-btn" onClick={()=>removeTodo(item.id)}>🗑️</button>
+            <div key={item.id} className="flex items-center gap-3">
+              <input
+                type="checkbox"
+                checked={item.done}
+                onChange={e=>setTodo(item.id,{done:e.target.checked})}
+                className="w-4 h-4 rounded border-primary-dark/20 text-primary focus:ring-primary focus:ring-offset-0"
+              />
+              <Input
+                className="flex-1"
+                placeholder="예: 여권"
+                value={item.text}
+                onChange={e=>setTodo(item.id,{text:e.target.value})}
+              />
+              <button
+                type="button"
+                className="text-xl hover:scale-110 transition-transform"
+                onClick={()=>removeTodo(item.id)}
+              >
+                🗑️
+              </button>
             </div>
           ))}
-          <button type="button" className="btn" onClick={addTodo}>+ 항목 추가</button>
+          <Button type="button" variant="ghost" onClick={addTodo}>+ 항목 추가</Button>
         </div>
-        <div className="form-actions">
-          <button className="btn primary" type="submit">저장</button>
-          <button className="btn ghost" type="button" onClick={()=>nav(-1)}>취소</button>
+        <div className="flex gap-3">
+          <Button variant="primary" type="submit">저장</Button>
+          <Button variant="ghost" type="button" onClick={()=>nav(-1)}>취소</Button>
         </div>
       </form>
     </Card>

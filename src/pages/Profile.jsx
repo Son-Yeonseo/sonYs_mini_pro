@@ -1,6 +1,8 @@
 import Card from '../components/Card'
 import { getUser, updateProfile } from '../services/authService'
 import { useState, useRef } from 'react'
+import FormField from '../components/ui/FormField'
+import Button from '../components/ui/Button'
 
 // Profile : 닉네임/아바타 편집
 export default function Profile(){
@@ -21,28 +23,29 @@ export default function Profile(){
     setAvatarFileName(f.name)
   }
   return (
-    <Card title="프로필 편집" className="profile-card">
-      <form className="profile-form" onSubmit={e=>{e.preventDefault();save()}}>
-        <div className="profile-row">
-          <div className={`avatar big profile-avatar ${avatar ? 'has-image' : ''}`}>
-            {avatar ? <img src={avatar} alt="아바타" /> : (name?.[0]?.toUpperCase()||'U')}
+    <Card title="프로필 편집">
+      <form className="flex flex-col gap-6" onSubmit={e=>{e.preventDefault();save()}}>
+        <div className="flex items-center gap-6">
+          <div className={`w-24 h-24 rounded-full flex items-center justify-center text-3xl font-bold ${avatar ? 'bg-transparent' : 'bg-primary text-white'} overflow-hidden`}>
+            {avatar ? <img src={avatar} alt="아바타" className="w-full h-full object-cover" /> : (name?.[0]?.toUpperCase()||'U')}
           </div>
-          <div className="profile-fields">
-            <label>
-              <span className="label-text">닉네임</span>
-              <input value={name} onChange={e=>setName(e.target.value)} />
-            </label>
-            <div className="profile-upload-row">
-              <span className="label-text">아바타 이미지</span>
-              <div className="profile-avatar-upload">
-                <button type="button" className="upload-btn" onClick={()=>fileRef.current?.click()}>업로드</button>
-                <div className="file-name">{avatarFileName || '선택된 파일 없음'}</div>
+          <div className="flex-1 flex flex-col gap-4">
+            <FormField
+              label="닉네임"
+              value={name}
+              onChange={e=>setName(e.target.value)}
+            />
+            <div className="flex flex-col gap-2">
+              <span className="text-xs font-semibold text-text-soft">아바타 이미지</span>
+              <div className="flex items-center gap-3">
+                <Button type="button" variant="ghost" size="sm" onClick={()=>fileRef.current?.click()}>업로드</Button>
+                <span className="text-sm text-text-soft">{avatarFileName || '선택된 파일 없음'}</span>
               </div>
               <input ref={fileRef} type="file" accept="image/*" onChange={e=>onUpload(e.target.files?.[0])} className="hidden" />
             </div>
           </div>
         </div>
-        <button className="btn primary profile-save" type="submit">저장</button>
+        <Button variant="primary" type="submit">저장</Button>
       </form>
     </Card>
   )

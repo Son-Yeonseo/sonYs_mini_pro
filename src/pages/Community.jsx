@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import Card from '../components/Card'
 import { addComment, addPost, listPosts, removePost, toggleLike } from '../services/communityService'
 import { getUser } from '../services/authService'
+import Button from '../components/ui/Button'
+import Input from '../components/ui/Input'
 
 // 페이지: 좋아요/댓글 기능이 있는 간단한 게시글, localStorage 저장
 // 커뮤니티 메인 컴포넌트
@@ -32,7 +34,7 @@ export default function Community(){
     e.preventDefault()
     if(!text && !photo) return
     addPost({ author: user.email, text, photo })
-    setText(''); setPhoto(''); fileRef.current.value=''
+    setText(''); setPhoto(''); setFileName(''); fileRef.current.value=''
     refresh()
   }
 
@@ -42,39 +44,42 @@ export default function Community(){
   const del = (id)=>{ removePost(id); refresh() }
 
   return (
-    <div className="grid">
-      <div className="col span-2">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="lg:col-span-2">
         <Card title="새 후기" subtitle="사진은 선택입니다.">
-          <form className="post-form" onSubmit={submit}>
-            <textarea className="post-text" value={text} onChange={e=>setText(e.target.value)} placeholder="여행 후기를 적어주세요..." />
-            <div className="uploader">
-              <div className="file-field">
-                <button type="button" className="btn file-btn" onClick={()=>fileRef.current?.click()}>파일 선택</button>
-                <span className="file-name">{fileName || '선택된 파일 없음'}</span>
+          <form className="flex flex-col gap-4" onSubmit={submit}>
+            <textarea
+              className="w-full border border-primary-dark/20 rounded-lg bg-white text-text p-3 text-sm transition-all duration-200 focus:outline-none focus:border-primary focus:shadow-[0_0_0_0.25rem_rgba(16,185,129,0.15)] min-h-[100px] resize-none"
+              value={text}
+              onChange={e=>setText(e.target.value)}
+              placeholder="여행 후기를 적어주세요..."
+            />
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-3">
+                <Button type="button" variant="ghost" size="sm" onClick={()=>fileRef.current?.click()}>파일 선택</Button>
+                <span className="text-sm text-text-soft">{fileName || '선택된 파일 없음'}</span>
               </div>
-              <input id="postPhoto" ref={fileRef} type="file" accept="image/*" onChange={e=>onUpload(e.target.files?.[0])} className="hidden" />
-              {photo && <img className="preview" src={photo} alt="preview" />}
+              <input ref={fileRef} type="file" accept="image/*" onChange={e=>onUpload(e.target.files?.[0])} className="hidden" />
+              {photo && <img className="w-full h-64 object-cover rounded-lg" src={photo} alt="preview" />}
             </div>
-            <div className="form-actions">
-              <button className="btn primary" type="submit">올리기</button>
-            </div>
+            <Button variant="primary" type="submit">올리기</Button>
           </form>
         </Card>
       </div>
 
-      <div className="col span-2">
+      <div className="lg:col-span-2 flex flex-col gap-6">
         {posts.map(p=> (
-      <Card key={p.id} title={p.author}
-        right={<button className="btn ghost white-text" onClick={()=>del(p.id)}>삭제</button>}>
-            <div className="post">
-              {p.photo && <img className="post-img" src={p.photo} alt="post" />}
-              {p.text && <p className="post-txt">{p.text}</p>}
-              <div className="post-ops">
-                <button className="btn ghost white-text" onClick={()=>like(p.id)}>❤ {p.likes.length}</button>
+          <Card key={p.id} title={p.author}
+            right={<Button variant="ghost" size="sm" onClick={()=>del(p.id)}>삭제</Button>}>
+            <div className="flex flex-col gap-3">
+              {p.photo && <img className="w-full h-80 object-cover rounded-lg" src={p.photo} alt="post" />}
+              {p.text && <p className="text-text">{p.text}</p>}
+              <div>
+                <Button variant="ghost" size="sm" onClick={()=>like(p.id)}>❤ {p.likes.length}</Button>
               </div>
-              <div className="comments">
+              <div className="flex flex-col gap-2">
                 {p.comments.map(c=> (
-                  <div key={c.id} className="comment"><b>{c.author}:</b> {c.text}</div>
+                  <div key={c.id} className="text-sm text-text bg-surface p-2 rounded"><b>{c.author}:</b> {c.text}</div>
                 ))}
                 <CommentInput onSubmit={(v)=>comment(p.id, v)} />
               </div>
@@ -90,9 +95,14 @@ export default function Community(){
 function CommentInput({onSubmit}){
   const [v, setV] = useState('')
   return (
-    <div className="comment-input">
-      <input placeholder="댓글 달기" value={v} onChange={e=>setV(e.target.value)} />
-      <button className="btn" onClick={()=>{ onSubmit(v); setV('') }}>게시</button>
+    <div className="flex gap-2">
+      <Input
+        className="flex-1"
+        placeholder="댓글 달기"
+        value={v}
+        onChange={e=>setV(e.target.value)}
+      />
+      <Button variant="ghost" size="sm" onClick={()=>{ onSubmit(v); setV('') }}>게시</Button>
     </div>
   )
 }
