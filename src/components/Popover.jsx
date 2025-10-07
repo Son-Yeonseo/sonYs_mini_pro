@@ -33,17 +33,13 @@ export default function Popover({ open, onClose, anchorClass, children }) {
       const r = anchor.getBoundingClientRect()
       const w = el.offsetWidth
       const gap = 8
-  const top = r.bottom + gap 
-  // 기본적으로 앵커 기준 중앙 정렬
+      const top = r.bottom + gap
       let left = r.left + (r.width - w) / 2
-  // 뷰포트 내에서 좌우 여백 유지
       left = Math.max(gap, Math.min(window.innerWidth - w - gap, left))
       setPos({ top, left })
     }
-  // 최초 위치 계산 및 애니메이션 트리거
     const id = requestAnimationFrame(() => {
       update()
-  // 레이아웃 이후 진입 애니메이션 적용
       requestAnimationFrame(() => setEntered(true))
     })
     window.addEventListener('resize', update)
@@ -67,7 +63,17 @@ export default function Popover({ open, onClose, anchorClass, children }) {
     transition: 'opacity 160ms ease, transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1)'
   }
   return createPortal(
-    <div className="popover" ref={ref} role="dialog" style={style}>
+    <div
+      className="w-[300px] rounded-lg p-4 border border-primary-dark/15 shadow-[0_8px_28px_rgba(16,185,129,0.18)] relative"
+      ref={ref}
+      role="dialog"
+      style={{
+        ...style,
+        background: 'linear-gradient(135deg, rgba(240,253,244,0.85) 0%, rgba(255,255,255,0.72) 100%)',
+        backdropFilter: 'blur(10px) saturate(140%)',
+      }}
+    >
+      <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 border border-primary-dark/15 border-b-0 border-r-0 rotate-45 bg-[linear-gradient(135deg,rgba(240,253,244,0.85)_0%,rgba(255,255,255,0.72)_100%)]" style={{backdropFilter: 'blur(10px) saturate(140%)'}}></div>
       {children}
     </div>,
     document.body

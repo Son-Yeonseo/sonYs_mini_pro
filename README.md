@@ -1,5 +1,5 @@
 # Plan-it Frontend
-여행 일정 + 날씨 대시보드 (React + Vite)
+여행 일정 + 날씨 대시보드 (React + Vite + Tailwind CSS)
 
 ## 실행 방법
 1) 의존성 설치
@@ -19,93 +19,165 @@ npm run dev
 VITE_OPEN_WEATHER_KEY=여기에_키_입력
 ```
 
-## 폴더 구조 요약
+## 폴더 구조
 
-- `src/components` 공용 컴포넌트
-	- `Layout.jsx` 전체 레이아웃/네비게이션
-	- `Card.jsx` 카드 UI
-	- `CalMini.jsx` 미니 달력
-	- `Popover.jsx` 팝오버(툴팁/모달)
-	- `Protected.jsx` 보호 라우트(로그인 필요 페이지)
-	- `WeatherWidget.jsx` 날씨 위젯
+### 컴포넌트 (`src/components`)
 
-- `src/pages` 주요 페이지
-	- `Home.jsx` 홈(대시보드)
-	- `Trips.jsx` 여행 목록
-	- `TripEdit.jsx` 여행 생성/수정
-	- `Community.jsx` 커뮤니티(후기/댓글)
-	- `Login.jsx` 로그인
-	- `Profile.jsx` 프로필(사용자 정보)
+| 파일 | 설명 |
+|------|------|
+| `Layout.jsx` | 전체 레이아웃/사이드바/네비게이션 |
+| `Card.jsx` | 카드 UI 래퍼 |
+| `CalMini.jsx` | 미니 달력 위젯 |
+| `Popover.jsx` | 팝오버(툴팁/알림) |
+| `Protected.jsx` | 보호 라우트(로그인 필요 페이지) |
+| `WeatherWidget.jsx` | 날씨 위젯 |
 
-- `src/services` 서비스/비즈니스 로직
-	- `authService.js` 인증(로그인/로그아웃/프로필)
-	- `communityService.js` 커뮤니티(게시글/댓글/좋아요)
-	- `eventService.js` 여행 일정(이벤트)
-	- `storageService.js` 여행 정보 CRUD
-	- `weatherService.js` 날씨(OpenWeather 연동/목업)
+### UI 컴포넌트 (`src/components/ui`)
 
-- `src/styles` 스타일 파일
-    - `index.css` 글로벌 스타일
-    - `components/buttons.css` 버튼 & 배지 스타일
-    - `components/layout.css` 레이아웃/그리드/사이드바
-    - `components/forms.css` 폼 & 체크리스트
-    - `components/calendar.css` 캘린더/달력 카드
-    - `components/widgets.css` 위젯(날씨/여행지 카드)
-    - `components/popover.css` 팝오버/알림
-    - `components/profile-trips.css` 프로필 & 여행 목록
-    - `components/memo-card.css` 메모 & 카드 확장
-    - `components/community.css` 커뮤니티(게시글/업로더/댓글)
-    - `components/pseudo.css` Pseudo 요소/장식
-    - `components/responsive.css` 반응형(작은 화면)
-    - `components/auth.css` 로그인/인증 화면
+| 파일 | 설명 |
+|------|------|
+| `Button.jsx` | 재사용 가능한 버튼 (variant: primary/ghost/inverse/danger) |
+| `Input.jsx` | 재사용 가능한 인풋 필드 |
+| `FormField.jsx` | 라벨 + 인풋 조합 폼 필드 |
+| `Empty.jsx` | 빈 상태 메시지 컴포넌트 |
+| `Badge.jsx` | 배지/태그 컴포넌트 |
+| `Separator.jsx` | 구분선 컴포넌트 |
+
+### 페이지 (`src/pages`)
+
+| 파일 | 설명 |
+|------|------|
+| `Home.jsx` | 홈(대시보드) - 캘린더, 메모, 인기 여행지, 날씨 |
+| `Trips.jsx` | 여행 목록 |
+| `TripEdit.jsx` | 여행 생성/수정 |
+| `Community.jsx` | 커뮤니티(후기/댓글/좋아요) |
+| `Login.jsx` | 로그인 |
+| `Profile.jsx` | 프로필(사용자 정보) |
+
+### 서비스 (`src/services`)
+
+| 파일 | 설명 |
+|------|------|
+| `authService.js` | 인증(로그인/로그아웃/프로필) - LocalStorage 기반 |
+| `communityService.js` | 커뮤니티(게시글/댓글/좋아요) |
+| `eventService.js` | 여행 일정(이벤트/메모) |
+| `storageService.js` | 여행 정보 CRUD |
+| `weatherService.js` | 날씨(OpenWeather API 연동/목업) |
+
+### 스타일 (`src/styles`)
+
+| 파일 | 설명 |
+|------|------|
+| `index.css` | Tailwind CSS 임포트 + 글로벌 base 스타일 |
 
 ## 기능
 
-- 홈: 날씨 위젯, 미니 캘린더, 인기 여행지 카드(목업)
-- 여행: LocalStorage 기반 CRUD, 체크리스트
-- 커뮤니티: 후기 작성(텍스트/사진 업로드), 좋아요, 댓글, 삭제
-- 로그인: LocalStorage 기반 목업 인증(어떤 이메일/비밀번호도 로그인 가능), 보호 라우팅 적용
+- **홈**: 날씨 위젯, 미니 캘린더, 메모 작성, 기간 선택으로 여행 일정 생성, 인기 여행지 카드
+- **여행**: LocalStorage 기반 CRUD, 체크리스트 관리
+- **커뮤니티**: 후기 작성(텍스트/사진 업로드), 좋아요, 댓글, 삭제
+- **로그인**: LocalStorage 기반 목업 인증(어떤 이메일/비밀번호도 로그인 가능), 보호 라우팅 적용
+
+## 기술 스택
+
+| 기술 | 버전 | 용도 |
+|------|------|------|
+| React | 18.2.0 | UI 프레임워크 |
+| Vite | 5.4.2 | 빌드 도구 |
+| React Router | 6.26.2 | 클라이언트 라우팅 |
+| Tailwind CSS | 4.1.14 | 유틸리티 기반 스타일링 |
+| @tailwindcss/vite | 4.1.14 | Vite 플러그인 (PostCSS 불필요) |
+| Axios | 1.7.7 | HTTP 클라이언트 |
+| dayjs | 1.11.13 | 날짜 처리 |
+
+## Tailwind CSS 설정
+
+### `tailwind.config.js` 커스텀 테마
+
+| 카테고리 | 커스텀 속성 | 설명 |
+|---------|------------|------|
+| **Colors** | `primary`, `bg`, `surface`, `text`, `sidebar`, `accent`, `panel` | 프로젝트 색상 팔레트 |
+| **fontSize** | `xs`, `sm`, `lg`, `xl`, `2xl` | 타이포그래피 스케일 |
+| **borderRadius** | `DEFAULT`, `lg`, `xl` | 일관된 모서리 반경 |
+| **boxShadow** | `DEFAULT`, `sm`, `md`, `lg`, `button`, `card` | 그림자 변형 |
+| **backgroundImage** | `gradient-primary`, `gradient-danger`, `gradient-sidebar`, `gradient-weather-*` | 그라디언트 프리셋 |
+| **height/minHeight/maxHeight** | `dvh` | 동적 뷰포트 높이 지원 |
+
+### Tailwind 전환 전후 비교
+
+| 항목 | 이전 방식 | 현재 방식 |
+|------|----------|----------|
+| **스타일 구조** | CSS 파일 12개 분리 (`buttons.css`, `layout.css` 등) | `index.css` 하나 + Tailwind 유틸리티 클래스 |
+| **컴포넌트 스타일** | CSS 클래스 (`.btn`, `.card`, `.sidebar`) | Tailwind 유틸리티 직접 사용 |
+| **색상 관리** | CSS 변수 (`:root`) | `tailwind.config.js` theme.extend.colors |
+| **재사용성** | CSS 클래스 상속 | UI 컴포넌트 (`Button`, `Input` 등) |
+| **빌드 설정** | Vite + PostCSS | Vite + @tailwindcss/vite 플러그인 |
+| **스타일 방식** | `@layer components` + `@apply` | 100% 유틸리티 클래스 |
+
+## Tailwind 전환 상세
+
+### 전환 완료 항목 ✅
+
+- 모든 CSS 컴포넌트 파일 삭제 (12개)
+- `tailwind.config.js`에서 색상/폰트/그라디언트/그림자 토큰화
+- 재사용 가능한 UI 컴포넌트 생성 (Button, Input, FormField 등)
+- 모든 페이지와 컴포넌트를 Tailwind 유틸리티로 변환
+- PostCSS 제거, Vite 플러그인으로 대체
+- 반응형 디자인 유지
+- 동적 스타일(인라인 style) 최소화
+
+### 주요 변경 사항
+
+```diff
+- src/styles/components/buttons.css (삭제)
+- src/styles/components/layout.css (삭제)
+- ... (CSS 파일 12개 전체 삭제)
++ src/components/ui/Button.jsx (신규)
++ src/components/ui/Input.jsx (신규)
++ tailwind.config.js (theme 확장)
+```
+
+### 설계 원칙
+
+1. **재사용성**: 공통 패턴은 UI 컴포넌트로 추출
+2. **일관성**: 모든 색상/크기는 config에서 관리
+3. **가독성**: variant/size props로 스타일 제어
+4. **유지보수성**: CSS 파일 없이 JSX에서 스타일 확인 가능
+5. **성능**: Tailwind JIT로 사용된 클래스만 번들링
 
 ## 브라우저 지원
 
-- 최신 크롬/엣지 권장
+- 최신 Chrome/Edge/Firefox/Safari 권장
+- ES2015+ 지원 브라우저
 
-## 기술 스택
-- React 18 + Vite
-- React Router v6
-- Axios
- - Tailwind CSS v4 (@layer theme/base/components/utilities + 임의 값 활용)
+## 개발 가이드
 
-## Tailwind 전환 메모
-이 프로젝트는 기존 커스텀 CSS 를 `src/styles/index.css` 하나로 통합하고 Tailwind v4의
-`@layer components` + `@apply` 패턴으로 컴포넌트 토큰화 했습니다. 런타임 동적 스타일(예: 아바타 배경 이미지, Popover 위치)만 인라인으로 남겨두었고 나머지는 유틸리티/커스텀 클래스화 되어 있습니다.
+### 새 컴포넌트 추가 시
 
-### 결론
-> ✅ 기존 커스텀 CSS 구조를 유지하면서 Tailwind v4 기반으로 안전하게 재구성 완료. Preflight/레이어/토큰 공존 형태이며, 향후 필요 시 유틸 완전 치환과 theme 확장은 추가적인 최적화 단계.
+```jsx
+// Tailwind 유틸리티 직접 사용
+<div className="px-4 py-3 rounded-xl bg-surface border border-primary-dark/10">
+  내용
+</div>
 
-### 현재 상태 vs 이상형(100% Tailwind)
-|                  항목                    |         현재 방식     vs          이상형(선택)            |           "비고"              |
-|------------------------------------------|-----------------------|----------------------------------|-------------------------------|
-| 컴포넌트 클래스<br>(.card, .sidebar 등)  | 남겨둔 추상 클래스      |     전부 JSX 유틸로 대체         | 유지가 더 읽기 쉬울 수도 있음  |
-| raw CSS 속성<br>(gradient, shadow 등)   | 다수 직접 선언          |   theme.extend + arbitrary 유틸  |    기능 영향 없음             |
-| 토큰<br>(:root 변수)                    | CSS 변수 유지           |      Tailwind theme로 흡수       |    추후 단계 최적화 가능      |
-| 스타일 분리                             | 다수 파일 @import layer |     colocation 또는 plugin화     |      지금도 구조 선명         |
+// 또는 UI 컴포넌트 활용
+<Button variant="primary" size="md" onClick={handleClick}>
+  클릭
+</Button>
+```
 
-### 이번 전환에서 실제로 한 것
-- Tailwind v4 도입: `@import "tailwindcss/preflight.css"`, `utilities`, `@layer theme/base/components` 적용
-- 기존 커스텀 CSS를 `src/styles/index.css`에서 통합 관리하고, components 레이어로 파일 분리 유지
-- 공통 스타일은 `@apply`로 추상 클래스화(예: `.btn`, `.card`, `.calendar-card`), JSX는 필요한 의미 클래스만 사용
-- 동적/복잡 스타일(gradient, backdrop-filter 등)은 임의값 유틸 혹은 최소한의 raw 선언로 유지해 회귀 리스크 최소화
-- Vite + PostCSS 설정으로 v4 JIT 동작, 스캔 경로는 `index.html`/`src/**/*`로 구성
+### 커스텀 색상 추가
 
-### 나머지를 ‘선택’으로 둔 이유 (안전성/가독성/비용 대비)
-- 회귀 리스크 최소화: 레이아웃/구조 클래스를 한 번에 유틸로 치환하면 레이아웃 붕괴 위험이 커짐
-- 팀 가독성: 추상 클래스가 컴포넌트 의도를 드러내 유지보수에 유리할 때가 있음
-- 비용 대비 효율: theme 확장/플러그인화는 필요성(재사용·일관성·번들 최적화)이 분명할 때 진행해도 늦지 않음
-- 성능 관점: v4 JIT는 실제 사용하는 유틸만 출력하므로, "현재 구조도 과도한 CSS 증가 없이 운영 가능"
+1. `tailwind.config.js`의 `theme.extend.colors`에 추가
+2. `className`에서 사용: `text-새색상` 또는 `bg-새색상`
 
-### 선택적 후속 최적화 아이디어 (원할 때 점진 적용)
-- `tailwind.config.js`의 `theme.extend`로 색/그라디언트/그림자/반경을 토큰화하여 임의값 반복 제거
-- `.app-shell`, `.sidebar`, `.grid` 등 구조 클래스를 JSX 유틸로 점진 치환 또는 파일별 colocation
-- 버튼/카드/배지 등을 Tailwind plugin 또는 `@layer components` 유틸로 표준화(변형/상태 포함)
-- Chrome DevTools Coverage로 미사용 컴포넌트 규칙 감축
+### 반응형 스타일
+
+```jsx
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  {/* 모바일: 1열, 태블릿: 2열, 데스크톱: 3열 */}
+</div>
+```
+
+## 라이선스
+
+MIT

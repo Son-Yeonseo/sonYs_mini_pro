@@ -1,89 +1,52 @@
-/* Tailwind (Preflight 포함) */
-@layer theme, base, components, utilities;
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/preflight.css" layer(base);
-@import "tailwindcss/utilities.css" layer(utilities);
+/* Tailwind CSS v4 imports */
+@import "tailwindcss";
 
-/* Tailwind v4 테마 변수: 기존 :root 변수에 매핑 → JSX/스타일 변경 없음 */
-@theme {
-	/* Colors */
-	--color-primary: var(--primary);
-	--color-primary-2: var(--primary-2);
-	--color-accent: var(--accent);
-	--color-text: var(--text);
-	--color-muted: var(--muted);
-	--color-bg: var(--bg);
-	--color-bg-card: var(--bg-card);
-	--color-panel: var(--panel);
-	--color-navy: var(--navy);
-	--color-orange: var(--orange);
-	--color-lime: var(--lime);
-	--color-danger: var(--danger);
-	--color-bg-widget: var(--bg-widget);
-	--color-surface: var(--surface);
-	--color-surface-2: var(--surface-2);
-}
-
-
-/* Preflight ON 상태 스팟 보정: 버튼 커서/리스트 불릿 복원 */
-	@layer base {
-		button:not(:disabled), [role="button"]:not(:disabled) { cursor: pointer; }
-		ul { list-style-type: disc; list-style-position: outside; padding-left: 1.25rem; }
-		ol { list-style-type: decimal; list-style-position: outside; padding-left: 1.25rem; }
-		input::placeholder, textarea::placeholder { color: var(--muted); opacity: 1; }
-		/* 폰트 스무딩: 가독성 개선(특히 한글) */
-		body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-synthesis: none; }
-	}
 /* Reset + typography */
-*{box-sizing:border-box}
-html,body,#root{height:100%}
-body{margin:0; font-family:Pretendard, "Noto Sans KR", "Segoe UI", Roboto, Arial, sans-serif}
-h1,h2,h3{margin:0}
-
-/* Tokens */
-:root{
-	--bg:#F5FFF8; /* 밝은 민트 배경 */
-	--bg-card:rgba(16,185,129,0.08);
-	--panel:#ffffff;
-	--text:#064E3B; /* 진한 초록 */
-	--muted:#047857; /* 서브 텍스트 */
-	--primary:#34D399; /* emerald-400 */
-	--primary-2:#10B981; /* emerald-500 */
-	--accent:#22C55E;
-	--navy:#1e1b4b;
-	--orange:#f97316;
-	--lime:#84cc16;
-	--danger:#ef4444;
-	--shadow:0 25px 50px -12px rgba(0,0,0,0.12);
-	--radius:12px;
-	--radius-lg:16px;
-	--ring:0 0 0 2px rgba(16,185,129,.25);
-	--gradient-primary:linear-gradient(135deg, #34D399 0%, #10B981 100%);
-	--gradient-accent:linear-gradient(135deg, #6EE7B7 0%, #34D399 100%);
-	--bg-widget:#D1FAE5; /* 위젯/카드 보조 */
-	--surface:#F0FDF4; /* 아주 연한 연두색(emerald-50) */
-	--surface-2:#ECFDF5; /* 보조 라이트 표면 */
+* {
+  box-sizing: border-box;
 }
 
-/* App background */
-body{
-	background: var(--bg);
-	color:var(--text);
-	background-attachment: fixed;
+html, body, #root {
+  height: 100%;
 }
 
-/* 컴포넌트 스타일 분리 import (layer=components) */
-@import "./components/buttons.css" layer(components);
-@import "./components/layout.css" layer(components);
-@import "./components/forms.css" layer(components);
-@import "./components/calendar.css" layer(components);
-@import "./components/widgets.css" layer(components);
-@import "./components/popover.css" layer(components);
-@import "./components/profile-trips.css" layer(components);
-@import "./components/memo-card.css" layer(components);
-@import "./components/community.css" layer(components);
-@import "./components/pseudo.css" layer(components);
-@import "./components/responsive.css" layer(components);
-@import "./components/auth.css" layer(components);
+body {
+  margin: 0;
+  font-family: Pretendard, "Noto Sans KR", "Segoe UI", Roboto, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  background: #F5FFF8;
+  color: #064E3B;
+  background-attachment: fixed;
+}
 
+h1, h2, h3 {
+  margin: 0;
+}
 
+/* Base styles */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  ul {
+    list-style-type: disc;
+    list-style-position: outside;
+    padding-left: 1.25rem;
+  }
+
+  ol {
+    list-style-type: decimal;
+    list-style-position: outside;
+    padding-left: 1.25rem;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #047857;
+    opacity: 1;
+  }
+}
